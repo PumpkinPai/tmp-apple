@@ -18,8 +18,8 @@ firstRun    = True  # True if this hasn't been run before (downloads deps)
 autoUpdate  = False # True or False, to check github for updates and do 'em
 
 # CONFIGURATION- PRINTER
-devName = '/dev/tty0'
-devBaud = 115200    # 9600, something something
+devName = '/dev/ttyUSB0'
+devBaud = 38400     # 9600, 19200, 38400, 57600, 115200, 230400, 250000
 devScan = True      # True to scan other tty's if tty0 isn't found
 devScanMax = 5      # give up after ttyx
 
@@ -38,6 +38,7 @@ def sendJob(grblFilename):
     try:
         s = serial.Serial(devName, devBaud)
     except:
+        #todo: if devScan == True check other ports and/or bauds
         return 'no connection'
 
     grblFile = open(grblFilename, 'r')
@@ -65,20 +66,25 @@ if __name__ == "__main__":
 
     # todo: check firstRun and autoUpdate & run if True
 
-    while True:
+    running = True
+
+    while running:
         # Give the fella a break
         time.sleep(5.0)
 
+'''
         # todo: check for innernet messages (jobs)
         if innernet.connected() == True:
             innernet.post('msgCheck')
         else:
             innernet.connect()
+'''
 
         # todo: check for file in queue folder, choose oldest
         queueFilename = 'test.gcode'
         success = sendJob(queueFilename)
         if success == True:
+            running = False #debug
             # todo: report success to job sender
             # todo: move file to done folder
             pass
