@@ -9,7 +9,7 @@ import os, serial, time
 try:
     import innernet
 except:
-    os.subprocess('wget https://github.com/pumpkinpai/innernet/innernet.py')
+    os.subprocess('wget https://raw.githubusercontent.com/pumpkinpai/innernet/master/innernet.py')
     # todo: restart script
 
 # CONFIGURATION- MAIN
