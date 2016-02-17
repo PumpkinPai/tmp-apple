@@ -6,11 +6,14 @@ confirmation unless there's an issue.
 '''
 
 import os, serial, time
+
+'''
 try:
     import innernet
 except:
     os.subprocess('wget https://github.com/pumpkinpai/innernet/innernet.py')
     # todo: restart script
+'''
 
 # CONFIGURATION- MAIN
 # todo: firstRun and update functions
@@ -41,6 +44,9 @@ def sendJob(grblFilename):
         #todo: if devScan == True check other ports and/or bauds
         return 'no connection'
 
+    # debug
+    print('Connection established')
+
     grblFile = open(grblFilename, 'r')
 
     # Grbl init
@@ -59,6 +65,8 @@ def sendJob(grblFilename):
         grbl_out = s.readline()
 
     grblFile.close()
+    # debug
+    print('gcode file complete')
     s.close()
     return True
 
@@ -72,18 +80,21 @@ if __name__ == "__main__":
         # Give the fella a break
         time.sleep(5.0)
 
-'''
+
         # todo: check for innernet messages (jobs)
-        if innernet.connected() == True:
-            innernet.post('msgCheck')
+        if True: # Todo: innernet.connected() == True:
+            pass
+            #innernet.post('msgCheck')
         else:
             innernet.connect()
-'''
+
 
         # todo: check for file in queue folder, choose oldest
         queueFilename = 'test.gcode'
         success = sendJob(queueFilename)
         if success == True:
+            #debug
+            print('successfully printed')
             running = False #debug
             # todo: report success to job sender
             # todo: move file to done folder
