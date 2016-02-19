@@ -6,9 +6,9 @@
 ; solid infill extrusion width = 0.48mm
 ; top infill extrusion width = 0.48mm
 
-M107
-M104 S220 ; set temperature
+;M107
 G28 ; home all axes
+M104 S220 ; set temperature
 G1 Z5 F5000 ; lift nozzle
 ;move Y axis off bed shutoff switch
 M109 S220 ; wait for temperature to be reached

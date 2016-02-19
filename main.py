@@ -47,10 +47,19 @@ def sendJob(grblFilename):
     # debug
     print('Connection established')
 
+    resp = input('Enter gcode command: ')
+
+    while resp != 'exit':
+        resp += '\n'
+        s.write(resp.encode())
+        soutput = s.readline()
+        print(soutput)
+        resp = input('Enter gcode command: ')
+
     grblFile = open(grblFilename, 'r')
 
     # Grbl init
-    s.write('\r\n\r\n')
+    s.write('\r\n\r\n'.encode())
     # Give it time to init
     time.sleep(3.0)
     # Flush startup text from serial input
@@ -58,11 +67,14 @@ def sendJob(grblFilename):
 
     # Stream gcode!
     for line in grblFile:
+        if line[0] == ';' or line[0] == ' ': continue
+        print(line)
         # prep each line for clean serial injection
         line = line.strip() + '\n'
-        s.write(line)
+        s.write(line.encode())
         # Wait for grbl response with '\n'
         grbl_out = s.readline()
+        print(grbl_out)
 
     grblFile.close()
     # debug
